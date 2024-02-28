@@ -6,7 +6,7 @@
 /*   By: dravaono <dravaono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:10:17 by dravaono          #+#    #+#             */
-/*   Updated: 2024/02/22 13:47:44 by dravaono         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:35:42 by dravaono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_atoips(const char *str)
 	return (r * s);
 }
 
-void	free_all(t_pars *parss, t_stack **stack_a, t_stack **stack_b)
+void	free_all(t_pars *parss, t_stack *stack_a, t_stack *stack_b)
 {
 	t_stack *tmp;
 	int	i;
@@ -79,15 +79,15 @@ void	free_all(t_pars *parss, t_stack **stack_a, t_stack **stack_b)
 	tmp = NULL;
 	while(stack_a)
     {
-        tmp = (*stack_a)->next;
+        tmp = stack_a->next;
         free(stack_a);
-        *stack_a = tmp;
+        stack_a = tmp;
     }
     while (stack_b)
     {
-        tmp = (*stack_b)->next;
+        tmp = stack_b->next;
         free(stack_b);
-        *stack_b = tmp;
+        stack_b = tmp;
     }
     free(stack_a);
     free(stack_b);
@@ -99,4 +99,20 @@ void	free_all(t_pars *parss, t_stack **stack_a, t_stack **stack_b)
     free(parss->tab_char);
     free(parss->tab_int);
     free(parss->tabcpy);
+}
+
+t_stack	*stackindex(t_stack *stack, t_pars *pars)
+{
+	t_stack	*tmp;
+	int	i;
+	
+	tmp = stack;
+	i = 0;
+	while (tmp)
+	{
+		tmp->index = pars->tabcpy[i];
+		tmp = tmp->next;
+		i++;
+	}
+	return (stack);
 }

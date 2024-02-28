@@ -43,16 +43,6 @@ t_stack *init_stack(t_stack *stack, t_pars pars)
     return (stack);
 }
 
-/*t_stack *clean_stack(t_stack *stack)
-{
-    t_stack *tmp;
-
-    tmp = stack;
-    while(tmp->next)
-        tmp = tmp->next;
-    lstdelone(tmp, stack->index);
-}*/
-
 void    print_lst(t_stack *stack)
 {
     while (stack)

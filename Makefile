@@ -6,16 +6,18 @@
 #    By: dravaono <dravaono@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 16:47:42 by dravaono          #+#    #+#              #
-#    Updated: 2024/02/22 16:11:00 by dravaono         ###   ########.fr        #
+#    Updated: 2024/02/27 20:36:29 by dravaono         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = main.c pars.c PS_utils.c Stack.c mouv_stack.c mouv_stack2.c\
+SRCS = main.c pars.c PS_utils.c Stack.c small_algo.c big_algo.c\
+		mouv_stack.c mouv_stack2.c placement_algo.c\
+
 
 OBJS = ${SRCS:.c=.o}
 NAME = push_swap
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -Wno-error
+FLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 LIBFT = ./libft
 
