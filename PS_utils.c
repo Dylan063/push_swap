@@ -6,7 +6,7 @@
 /*   By: dravaono <dravaono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 14:10:17 by dravaono          #+#    #+#             */
-/*   Updated: 2024/02/24 19:35:42 by dravaono         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:54:25 by dravaono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,28 @@ char	*ft_strjoinps(char *s1, char *s2)
 	while (s1[i])
 	{
 		sfinal[i] = s1[i];
-        i++;
-    }
-    sfinal[i] = ' ';
+		i++;
+	}
+	sfinal[i] = ' ';
 	while (s2[j])
 	{
 		sfinal[i] = s2[j];
 		i++;
 		j++;
 	}
-    sfinal[i] = ' ';
+	sfinal[i] = ' ';
 	sfinal[++i] = '\0';
 	free(s1);
 	return (sfinal);
 }
 
-int	ft_atoips(const char *str)
+int	ft_atoips(const char *str, int s)
 {
-	int	i;
-	long int	r;
-	int	s;
+	int			i;
+	long 		r;
 
 	i = 0;
 	r = 0;
-	s = 1;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -73,39 +71,38 @@ int	ft_atoips(const char *str)
 
 void	free_all(t_pars *parss, t_stack *stack_a, t_stack *stack_b)
 {
-	t_stack *tmp;
-	int	i;
-    
+	t_stack		*tmp;
+	t_stack		*tmp1;
+	int			i;
+
 	tmp = NULL;
-	while(stack_a)
-    {
-        tmp = stack_a->next;
-        free(stack_a);
-        stack_a = tmp;
-    }
-    while (stack_b)
-    {
-        tmp = stack_b->next;
-        free(stack_b);
-        stack_b = tmp;
-    }
-    free(stack_a);
-    free(stack_b);
-    i = -1;
-    while(++i != parss->sizetab)
-    {
-        free(parss->tab_char[i]);
-    }
-    free(parss->tab_char);
-    free(parss->tab_int);
-    free(parss->tabcpy);
+	while (stack_a)
+	{
+		tmp = stack_a->next;
+		free(stack_a);
+		stack_a = tmp;
+	}
+	while (stack_b)
+	{
+		tmp1 = stack_b->next;
+		free(stack_b);
+		stack_b = tmp1;
+	}
+	free(stack_a);
+	free(stack_b);
+	i = -1;
+	while (++i != parss->sizetab)
+		free(parss->tab_char[i]);
+	free(parss->tab_char);
+	free(parss->tab_int);
+	free(parss->tabcpy);
 }
 
 t_stack	*stackindex(t_stack *stack, t_pars *pars)
 {
 	t_stack	*tmp;
-	int	i;
-	
+	int		i;
+
 	tmp = stack;
 	i = 0;
 	while (tmp)
@@ -113,6 +110,20 @@ t_stack	*stackindex(t_stack *stack, t_pars *pars)
 		tmp->index = pars->tabcpy[i];
 		tmp = tmp->next;
 		i++;
+		stack->size++;
 	}
 	return (stack);
+}
+
+int	ft_stacksize(t_stack *stack)
+{
+	size_t	count;
+
+	count = 0;
+	while (stack)
+	{
+		stack = stack->next;
+		count++;
+	}
+	return (count);
 }

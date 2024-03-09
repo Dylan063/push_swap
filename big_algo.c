@@ -6,60 +6,57 @@
 /*   By: dravaono <dravaono@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:18:51 by dravaono          #+#    #+#             */
-/*   Updated: 2024/02/27 21:14:58 by dravaono         ###   ########.fr       */
+/*   Updated: 2024/03/09 17:56:17 by dravaono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sort(t_stack **stack_a)
+static int	get_max_bits(t_stack **stack)
 {
-	t_stack *copy;
-	long int	temp;
+	t_stack	*head;
+	int		max;
+	int		max_bits;
 
-	copy = (*stack_a);
-	temp = 0;
-	while (copy)
+	head = *stack;
+	max = head->index;
+	max_bits = 0;
+	while (head)
 	{
-		if (copy->value < temp)
-			return (0);
-		temp = copy->value;
-		copy = copy->next;
+		if (head->index > max)
+			max = head->index;
+		head = head->next;
 	}
-	return (1);
+	while ((max >> max_bits) != 0)
+		max_bits++;
+	return (max_bits);
 }
 
-void	radix(t_stack **stack_a, t_stack **stack_b, long int size)
+void	radix(t_stack **stack_a, t_stack **stack_b)
 {
-	long int	i;
-	int			shift;
+	t_stack	*head_a;
+	int		i;
+	int		j;
+	int		size;
+	int		max_bits;
 
-	shift = 0;
-	while (!is_sort(stack_a))
+	i = 0;
+	head_a = *stack_a;
+	size = ft_stacksize(head_a);
+	max_bits = get_max_bits(stack_a);
+	while (i < max_bits)
 	{
-		i = 0;
-		while (i < size)
+		j = 0;
+		while (j++ < size)
 		{
-			if ((*stack_a)->index >> shift & 1)
+			head_a = *stack_a;
+			if (((head_a->index >> i) & 1) == 1)
 				rotate(stack_a, "ra\n");
 			else
 				push_b(stack_b, stack_a, "pb\n");
-			i++;
 		}
-		while ((*stack_b))
+		while (ft_stacksize(*stack_b) != 0)
 			push_a(stack_b, stack_a, "pa\n");
-		shift++;
+		i++;
 	}
-}
-
-void    full_algo(t_stack **stack_a, t_stack **stack_b, long int size)
-{
-    if (is_sort(stack_a))
-        exit(1);
-    else if (size == 3 && !is_sort(stack_a))
-        algo3(stack_a);
-    else if (size == 5 && !is_sort(stack_a))
-        algo5(stack_a, stack_b);
-    else
-        radix(stack_a, stack_b, size);    
 }
